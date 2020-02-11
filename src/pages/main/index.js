@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import api from '../../services/api'
 
+import './styles.css'
+
 export default class Main extends Component {
   // metodo render pode precisar de usar
   // algum atributo de estado
@@ -23,13 +25,16 @@ export default class Main extends Component {
   }
 
   render(){
+    const { products } = this.state.products
     return (
       <div className="product-list">
-        <ul>
-          {this.state.products.map(product => (
-            <li key={product._id}>{product.title}</li>
+        {this.state.products.map(product => (
+          <article key={product._id}>
+            <strong>{product.title}</strong>
+            <p>{product.description}</p>
+            <a href="#">Acessar</a>
+          </article>
           ))}
-        </ul>
       </div>
     )
   }
