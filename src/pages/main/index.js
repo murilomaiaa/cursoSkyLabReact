@@ -8,6 +8,8 @@ export default class Main extends Component {
   // algum atributo de estado
   state = {
     products: [],
+    productInfo: {},
+    page: 1
   }
 
   // excecutado assim que o componente e
@@ -16,12 +18,37 @@ export default class Main extends Component {
     this.loadProducts()
   }
   
-  loadProducts = async() => {
-    const response = await api.get('/products')
+  loadProducts = async(page = 1) => {
+    const response = await api.get(`/products?page=${page}`)
+
+    const { docs, ...productInfo } = response.data
 
     this.setState({
-      products: response.data.docs
+      products: docs,
+      productInfo,
+      page
     })
+  }
+
+  prevPage = () => {
+    const { page } = this.state
+
+    if (page === 1) return
+
+    const pageNumber = page - 1
+
+    this.loadProducts(pageNumber)
+  }
+
+  nextPage = () => {
+    const { page, productInfo } = this.state
+
+    if (page === productInfo.pages) return
+
+    const pageNumber = page + 1
+
+    this.loadProducts(pageNumber)
+
   }
 
   render(){
@@ -35,6 +62,10 @@ export default class Main extends Component {
             <a href="#">Acessar</a>
           </article>
           ))}
+          <div className="actions">
+            <button onClick={this.prevPage}>Anterior</button>
+            <button onClick={this.nextPage}>Proximo</button>
+          </div>
       </div>
     )
   }
