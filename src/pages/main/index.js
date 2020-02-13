@@ -52,10 +52,10 @@ export default class Main extends Component {
   }
 
   render(){
-    const { products } = this.state.products
+    const { products, page, productInfo } = this.state
     return (
       <div className="product-list">
-        {this.state.products.map(product => (
+        {products.map(product => (
           <article key={product._id}>
             <strong>{product.title}</strong>
             <p>{product.description}</p>
@@ -63,8 +63,8 @@ export default class Main extends Component {
           </article>
           ))}
           <div className="actions">
-            <button onClick={this.prevPage}>Anterior</button>
-            <button onClick={this.nextPage}>Proximo</button>
+            <button disabled={ page === 1} onClick={this.prevPage}>Anterior</button>
+            <button disabled={ page === productInfo.page} onClick={this.nextPage}>Proximo</button>
           </div>
       </div>
     )
